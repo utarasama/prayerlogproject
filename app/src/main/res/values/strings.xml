@@ -5,4 +5,5 @@
     <string name="asr_prayer_text">Asr</string>
     <string name="maghrib_prayer_text">Maghrib</string>
     <string name="icha_prayer_text">Icha</string>
+    <string name="confirmer_button_text">Confirmer</string>
 </resources>
