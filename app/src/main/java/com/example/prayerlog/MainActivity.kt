@@ -3,6 +3,7 @@ package com.example.prayerlog
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -20,6 +21,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.prayerlog.ui.theme.PrayerLogTheme
 
 class MainActivity : ComponentActivity() {
@@ -32,7 +34,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background,
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    PrayerFormScreen()
+                    Navigation()
                 }
             }
         }
@@ -58,22 +60,21 @@ private fun isFormValid(vararg values: Int): Boolean {
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun PrayerTextField(
-    prayerName: String,
+    @StringRes label: Int,
     value: String,
+    modifier: Modifier = Modifier,
     imeAction: ImeAction = ImeAction.Next,
-    onValueChange: (String) -> Unit
+    onValueChange: (String) -> Unit,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
-
-
 
     OutlinedTextField(
         value = value,
         singleLine = true,
         onValueChange = onValueChange,
-        label = { Text(prayerName) },
-        modifier = Modifier.fillMaxWidth(),
+        label = { Text(stringResource(label)) },
+        modifier = modifier.fillMaxWidth(),
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Number,
             imeAction = imeAction
@@ -89,7 +90,7 @@ fun PrayerTextField(
             if (isInt(value))
                 Icon(
                     Icons.Filled.Warning,
-                    "La donnée entrée dans $prayerName n'est pas un nombre entier.",
+                    "La donnée entrée dans $label n'est pas un nombre entier.",
                     tint = MaterialTheme.colors.error
                 )
         }
@@ -97,18 +98,23 @@ fun PrayerTextField(
 }
 
 @Composable
-fun ActionButton(buttonText: String, enabled: Boolean, customAction: () -> Unit) {
+fun ActionButton(
+    @StringRes label: Int,
+    enabled: Boolean,
+    modifier: Modifier = Modifier,
+    customAction: () -> Unit,
+) {
     Button(
         onClick = customAction,
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         enabled = enabled
     ) {
-        Text(text = buttonText, Modifier.padding(12.dp))
+        Text(text = stringResource(label), Modifier.padding(12.dp))
     }
 }
 
 @Composable
-fun PrayerFormScreen() {
+fun PrayerFormScreen(navController: NavController) {
     var fajrAmountInput by remember { mutableStateOf( "") }
     var dohrAmountInput by remember { mutableStateOf( "") }
     var asrAmountInput by remember { mutableStateOf( "") }
@@ -128,27 +134,31 @@ fun PrayerFormScreen() {
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        PrayerTextField(stringResource(R.string.fajr_prayer_text), fajrAmountInput) {
+        PrayerTextField(R.string.fajr_prayer_text, fajrAmountInput) {
             fajrAmountInput = it
         }
-        PrayerTextField(stringResource(R.string.dohr_prayer_text), dohrAmountInput) {
+        PrayerTextField(R.string.dohr_prayer_text, dohrAmountInput) {
             dohrAmountInput = it
         }
-        PrayerTextField(stringResource(R.string.asr_prayer_text), asrAmountInput) {
+        PrayerTextField(R.string.asr_prayer_text, asrAmountInput) {
             asrAmountInput = it
         }
-        PrayerTextField(stringResource(R.string.maghrib_prayer_text), maghrebAmountInput) {
+        PrayerTextField(R.string.maghreb_prayer_text, maghrebAmountInput) {
             maghrebAmountInput = it
         }
         PrayerTextField(
-            stringResource(R.string.icha_prayer_text),
+            R.string.isha_prayer_text,
             ishaAmountInput,
             imeAction = ImeAction.Done,
         ) {
             ishaAmountInput = it
         }
         Spacer(modifier = Modifier.height(24.dp))
-        ActionButton(stringResource(R.string.confirmer_button_text), isButtonEnabled) {}
+        ActionButton(R.string.confirm_button_text, isButtonEnabled) {
+            navController.navigate(Screen.DashboardScreen.withArgs(
+                fajrAmount, dohrAmount, asrAmount, maghrebAmount, ishaAmount
+            ))
+        }
     }
 }
 
@@ -156,6 +166,6 @@ fun PrayerFormScreen() {
 @Composable
 fun DefaultPreview() {
     PrayerLogTheme {
-        PrayerFormScreen()
+        Navigation()
     }
 }
