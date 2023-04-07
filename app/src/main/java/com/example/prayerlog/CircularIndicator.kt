@@ -1,4 +1,4 @@
-package com.example.prayerlog.ui.theme
+package com.example.prayerlog
 
 import androidx.annotation.StringRes
 import androidx.compose.animation.animateColorAsState
@@ -27,7 +27,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import com.example.prayerlog.R
 
 /**
  * @author https://github.com/stevdza-san/Custom-Component-Jetpack-Compose/blob/main/CustomComponent.kt

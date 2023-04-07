@@ -7,4 +7,6 @@
     <string name="isha_prayer_text">Icha</string>
     <string name="confirm_button_text">Confirmer</string>
     <string name="accomplished_prayers_text">Prières accomplies</string>
+    <string name="add_accomplished_prayers_text">Ajouter de nouvelles prières accomplies</string>
+    <string name="i_already_accomplished_some_of_them_text">J\'en ai déjà accomplies parmi celles ci-dessus</string>
 </resources>

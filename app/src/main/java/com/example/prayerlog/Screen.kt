@@ -9,7 +9,7 @@ sealed class Screen(val route: String) {
 
     /**
      * Builds a route with the specified arguments.
-     * @param args The `String` args we want to pass throught the navigation.
+     * @param args The `String` args we want to pass through the navigation.
      * @return A correctly built `String` route joined by slashes.
      */
     fun withArgs(vararg args: String): String {
@@ -23,7 +23,7 @@ sealed class Screen(val route: String) {
 
     /**
      * Builds a route with the specified arguments.
-     * @param args The `Int` args we want to pass throught the navigation.
+     * @param args The `Int` args we want to pass through the navigation.
      * @return A correctly built `String` route joined by slashes.
      */
     fun withArgs(vararg args: Int): String {
