@@ -29,16 +29,18 @@ fun DashboardScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
         ) {
+            val rowSize = 85.dp
+            val prayers = arrayOf(fajr, dohr, asr, maghreb, isha)
             CircularIndicator(
-                indicatorValue = fajr.amountPrayed + dohr.amountPrayed + asr.amountPrayed + maghreb.amountPrayed + isha.amountPrayed,
-                maxIndicatorValue = fajr.amountToPray + dohr.amountToPray + asr.amountToPray + maghreb.amountToPray + isha.amountToPray,
+                // Here, the * (spread) operator pulls the array values out
+                // so that the values are passed like multiple arguments.
+                // Doesn't work with listOf() type. Why? Allah swt, for sure, knows.
+                indicatorValue = Prayer.sumAmountPrayed(*prayers),
+                maxIndicatorValue = Prayer.sumAmountToPray(*prayers),
                 foregroundIndicatorStrokeWidth = 50f,
                 backgroundIndicatorStrokeWidth = 50f,
             )
             // TODO: constraint layout
-            val rowSize = 85.dp
-            val prayers = listOf(fajr, dohr, asr, maghreb, isha)
-
 
             Row(
                 modifier
@@ -48,20 +50,19 @@ fun DashboardScreen(
                 horizontalArrangement = Arrangement.Center
             ) {
                 for (prayer in prayers)
-                    CircularIndicator(
-                        indicatorValue = prayer.amountPrayed,
-                        maxIndicatorValue = prayer.amountToPray,
-                        smallText = prayer.nameId,
-                        canvasSize = rowSize,
-                        foregroundIndicatorStrokeWidth = 10f,
-                        backgroundIndicatorStrokeWidth = 10f,
-                        bigTextFontSize = MaterialTheme.typography.body1.fontSize,
-                        smallTextFontSize = MaterialTheme.typography.overline.fontSize
-                    )
+                    if (prayer.stillNeedsToBeMadeUp())
+                        CircularIndicator(
+                            indicatorValue = prayer.amountPrayed,
+                            maxIndicatorValue = prayer.amountToPray,
+                            smallText = prayer.nameId,
+                            canvasSize = rowSize,
+                            foregroundIndicatorStrokeWidth = 10f,
+                            backgroundIndicatorStrokeWidth = 10f,
+                            bigTextFontSize = MaterialTheme.typography.body1.fontSize,
+                            smallTextFontSize = MaterialTheme.typography.overline.fontSize
+                        )
             }
             //TODO: make it displayed in a round shape
-
-
         }
         val button = createRef()
         Button(onClick = {},

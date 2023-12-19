@@ -17,55 +17,55 @@ fun Navigation() {
         composable(
             // Describing what are my arguments...
             route = Screen.DashboardScreen.route
-                    + "/{fajrAmount}/{fajrAmountMax}/{dohrAmount}/{dohrAmountMax}/{asrAmount}/" +
-                    "{asrAmountMax}/{maghrebAmount}/{maghrebAmountMax}/{ishaAmount}/{ishaAmountMax}",
+                    + "/{fajrAmountPrayed}/{fajrAmountToPray}/{dohrAmountPrayed}/{dohrAmountToPray}/{asrAmountPrayed}/" +
+                    "{asrAmountToPray}/{maghrebAmountPrayed}/{maghrebAmountToPray}/{ishaAmountPrayed}/{ishaAmountToPray}",
             arguments = listOf(
-                navArgument("fajrAmount") {
+                navArgument("fajrAmountPrayed") {
                     type = NavType.IntType
                     defaultValue = 0
                     nullable = false
                 },
-                navArgument("fajrAmountMax") {
+                navArgument("fajrAmountToPray") {
                     type = NavType.IntType
                     defaultValue = 0
                     nullable = false
                 },
-                navArgument("dohrAmount") {
+                navArgument("dohrAmountPrayed") {
                     type = NavType.IntType
                     defaultValue = 0
                     nullable = false
                 },
-                navArgument("dohrAmountMax") {
+                navArgument("dohrAmountToPray") {
                     type = NavType.IntType
                     defaultValue = 0
                     nullable = false
                 },
-                navArgument("asrAmount") {
+                navArgument("asrAmountPrayed") {
                     type = NavType.IntType
                     defaultValue = 0
                     nullable = false
                 },
-                navArgument("asrAmountMax") {
+                navArgument("asrAmountToPray") {
                     type = NavType.IntType
                     defaultValue = 0
                     nullable = false
                 },
-                navArgument("maghrebAmount") {
+                navArgument("maghrebAmountPrayed") {
                     type = NavType.IntType
                     defaultValue = 0
                     nullable = false
                 },
-                navArgument("maghrebAmountMax") {
+                navArgument("maghrebAmountToPray") {
                     type = NavType.IntType
                     defaultValue = 0
                     nullable = false
                 },
-                navArgument("ishaAmount") {
+                navArgument("ishaAmountPrayed") {
                     type = NavType.IntType
                     defaultValue = 0
                     nullable = false
                 },
-                navArgument("ishaAmountMax") {
+                navArgument("ishaAmountToPray") {
                     type = NavType.IntType
                     defaultValue = 0
                     nullable = false
@@ -75,29 +75,29 @@ fun Navigation() {
             // ... and how I get them back
             DashboardScreen(
                 fajr = Prayer(
-                    R.string.fajr_prayer_text,
-                    entry.arguments!!.getInt("fajrAmountMax"),
-                    entry.arguments!!.getInt("fajrAmount"),
+                    nameId = R.string.fajr_prayer_text,
+                    amountToPray = entry.arguments!!.getInt("fajrAmountToPray"),
+                    amountPrayed = entry.arguments!!.getInt("fajrAmountPrayed"),
                 ),
                 dohr = Prayer(
-                    R.string.dohr_prayer_text,
-                    entry.arguments!!.getInt("dohrAmountMax"),
-                    entry.arguments!!.getInt("dohrAmount"),
+                    nameId = R.string.dohr_prayer_text,
+                    amountToPray = entry.arguments!!.getInt("dohrAmountToPray"),
+                    amountPrayed = entry.arguments!!.getInt("dohrAmountPrayed"),
                 ),
                 asr = Prayer(
-                    R.string.asr_prayer_text,
-                    entry.arguments!!.getInt("asrAmountMax"),
-                    entry.arguments!!.getInt("asrAmount"),
+                    nameId = R.string.asr_prayer_text,
+                    amountToPray = entry.arguments!!.getInt("asrAmountToPray"),
+                    amountPrayed = entry.arguments!!.getInt("asrAmountPrayed"),
                 ),
                 maghreb = Prayer(
-                    R.string.maghreb_prayer_text,
-                    entry.arguments!!.getInt("maghrebAmountMax"),
-                    entry.arguments!!.getInt("maghrebAmount"),
+                    nameId = R.string.maghreb_prayer_text,
+                    amountToPray = entry.arguments!!.getInt("maghrebAmountToPray"),
+                    amountPrayed = entry.arguments!!.getInt("maghrebAmountPrayed"),
                 ),
                 isha = Prayer(
-                    R.string.isha_prayer_text,
-                    entry.arguments!!.getInt("ishaAmountMax"),
-                    entry.arguments!!.getInt("ishaAmount"),
+                    nameId = R.string.isha_prayer_text,
+                    amountToPray = entry.arguments!!.getInt("ishaAmountToPray"),
+                    amountPrayed = entry.arguments!!.getInt("ishaAmountPrayed"),
                 ),
             )
         }

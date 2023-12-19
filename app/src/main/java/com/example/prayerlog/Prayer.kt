@@ -15,4 +15,33 @@ data class Prayer(
     @StringRes val nameId: Int,
     val amountToPray: Int,
     val amountPrayed: Int = 0
-)
+) {
+    /**
+     * Tells if the prayer needs to be made up or not.
+     * @return `true` if this prayer still needs to be made up, `false` otherwise.
+     */
+    fun stillNeedsToBeMadeUp(): Boolean {
+        return this.amountToPray > this.amountPrayed
+    }
+
+    // All methods in this companion object are equivalent to static methods.
+    companion object {
+        /**
+         * Calculates the sum of all amount to pray from prayers.
+         * @param prayers The prayers parameters.
+         * @return The sum described above.
+         */
+        fun sumAmountToPray(vararg prayers: Prayer): Int {
+            return prayers.sumOf { it.amountToPray }
+        }
+
+        /**
+         * Calculates the sum of all amount prayed from prayers.
+         * @param prayers The prayers parameters.
+         * @return The sum described above.
+         */
+        fun sumAmountPrayed(vararg prayers: Prayer): Int {
+            return prayers.sumOf { it.amountPrayed }
+        }
+    }
+}
