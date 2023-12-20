@@ -64,6 +64,7 @@ fun DashboardScreen(
             }
             //TODO: make it displayed in a round shape
         }
+        AddPrayerField(prayer = fajr)
         val button = createRef()
         Button(onClick = {},
             modifier

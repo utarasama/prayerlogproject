@@ -82,7 +82,7 @@ fun PrayerTextField(
 
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
-    val labelStr: String= stringResource(label)
+    val labelTextFieldName: String= stringResource(label)
 
     fun hasTextFieldError(): Boolean {
         return lostAtLeastOnceFocus && !isInt(value) || (hadAtLeastOnceFocus && !isInt(value) && value != "")
@@ -92,16 +92,16 @@ fun PrayerTextField(
         value = value,
         singleLine = true,
         onValueChange = onValueChange,
-        label = { Text(stringResource(label)) },
+        label = { Text(labelTextFieldName) },
         modifier = modifier
             .padding(horizontal = 12.dp)
             .fillMaxWidth()
             .onFocusChanged {
                 if (it.isFocused) {
-                    println("$labelStr is focused")
+                    println("$labelTextFieldName is focused")
                     hadAtLeastOnceFocus = true
                 } else if (!it.isFocused && hadAtLeastOnceFocus) {
-                    println("$labelStr lost focus")
+                    println("$labelTextFieldName lost focus")
                     lostAtLeastOnceFocus = true
                 }
             },
