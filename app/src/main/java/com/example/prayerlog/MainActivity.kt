@@ -120,7 +120,7 @@ fun PrayerTextField(
             if (hasTextFieldError())
                 Icon(
                     Icons.Filled.Warning,
-                    "La donnée entrée dans $label n'est pas un nombre entier.",
+                    stringResource(R.string.entry_not_integer_text, labelTextFieldName),
                     tint = MaterialTheme.colors.error
                 )
         }
@@ -172,13 +172,13 @@ fun CheckboxWithText(
 
 @Composable
 fun PrayerFormScreen(navController: NavController, formTitle: String = "Salut à toi, jeune entrepreneur") {
-    var fajrAmountToPrayInput by rememberSaveable { mutableStateOf( "") }
+    var sobhAmountToPrayInput by rememberSaveable { mutableStateOf( "") }
     var dohrAmountToPrayInput by rememberSaveable { mutableStateOf( "") }
     var asrAmountToPrayInput by rememberSaveable { mutableStateOf( "") }
     var maghrebAmountToPrayInput by rememberSaveable { mutableStateOf( "") }
     var ishaAmountToPrayInput by rememberSaveable { mutableStateOf( "") }
 
-    var fajrAmountPrayedInput by rememberSaveable { mutableStateOf( "") }
+    var sobhAmountPrayedInput by rememberSaveable { mutableStateOf( "") }
     var dohrAmountPrayedInput by rememberSaveable { mutableStateOf( "") }
     var asrAmountPrayedInput by rememberSaveable { mutableStateOf( "") }
     var maghrebAmountPrayedInput by rememberSaveable { mutableStateOf( "") }
@@ -187,12 +187,12 @@ fun PrayerFormScreen(navController: NavController, formTitle: String = "Salut à
     var hasMadeUpSomePrayers by rememberSaveable { mutableStateOf( false) }
     val scrollState = rememberScrollState()
 
-    val fajrAmountToPray = fajrAmountToPrayInput.toIntOrNull() ?: -1
+    val sobhAmountToPray = sobhAmountToPrayInput.toIntOrNull() ?: -1
     val dohrAmountToPray = dohrAmountToPrayInput.toIntOrNull() ?: -1
     val asrAmountToPray = asrAmountToPrayInput.toIntOrNull() ?: -1
     val maghrebAmountToPray = maghrebAmountToPrayInput.toIntOrNull() ?: -1
     val ishaAmountToPray = ishaAmountToPrayInput.toIntOrNull() ?: -1
-    val fajrAmountPrayed = fajrAmountPrayedInput.toIntOrNull() ?: -1
+    val sobhAmountPrayed = sobhAmountPrayedInput.toIntOrNull() ?: -1
     val dohrAmountPrayed = dohrAmountPrayedInput.toIntOrNull() ?: -1
     val asrAmountPrayed = asrAmountPrayedInput.toIntOrNull() ?: -1
     val maghrebAmountPrayed = maghrebAmountPrayedInput.toIntOrNull() ?: -1
@@ -200,11 +200,11 @@ fun PrayerFormScreen(navController: NavController, formTitle: String = "Salut à
 
 
     var isButtonEnabled: Boolean = isFormValid(
-        fajrAmountToPray, dohrAmountToPray, asrAmountToPray, maghrebAmountToPray, ishaAmountToPray
+        sobhAmountToPray, dohrAmountToPray, asrAmountToPray, maghrebAmountToPray, ishaAmountToPray
     )
     if (hasMadeUpSomePrayers)
         isButtonEnabled = isButtonEnabled && isFormValid(
-            fajrAmountPrayed, dohrAmountPrayed, asrAmountPrayed, maghrebAmountPrayed, ishaAmountPrayed
+            sobhAmountPrayed, dohrAmountPrayed, asrAmountPrayed, maghrebAmountPrayed, ishaAmountPrayed
         )
 
     Column(
@@ -220,8 +220,8 @@ fun PrayerFormScreen(navController: NavController, formTitle: String = "Salut à
             modifier = Modifier.padding(12.dp)
         )
         Spacer(Modifier.padding(12.dp))
-        PrayerTextField(R.string.fajr_prayer_text, fajrAmountToPrayInput) {
-            fajrAmountToPrayInput = it
+        PrayerTextField(R.string.sobh_prayer_text, sobhAmountToPrayInput) {
+            sobhAmountToPrayInput = it
         }
         PrayerTextField(R.string.dohr_prayer_text, dohrAmountToPrayInput) {
             dohrAmountToPrayInput = it
@@ -232,7 +232,7 @@ fun PrayerFormScreen(navController: NavController, formTitle: String = "Salut à
         PrayerTextField(R.string.maghreb_prayer_text, maghrebAmountToPrayInput) {
             maghrebAmountToPrayInput = it
         }
-        PrayerTextField(R.string.isha_prayer_text, ishaAmountToPrayInput, imeAction = ImeAction.Done,) {
+        PrayerTextField(R.string.isha_prayer_text, ishaAmountToPrayInput, imeAction = ImeAction.Done) {
             ishaAmountToPrayInput = it
         }
         Spacer(modifier = Modifier.height(8.dp))
@@ -245,8 +245,8 @@ fun PrayerFormScreen(navController: NavController, formTitle: String = "Salut à
         }
         if (hasMadeUpSomePrayers) {
             Spacer(modifier = Modifier.height(8.dp))
-            PrayerTextField(R.string.fajr_prayer_text, fajrAmountPrayedInput) {
-                fajrAmountPrayedInput = it
+            PrayerTextField(R.string.sobh_prayer_text, sobhAmountPrayedInput) {
+                sobhAmountPrayedInput = it
             }
             PrayerTextField(R.string.dohr_prayer_text, dohrAmountPrayedInput) {
                 dohrAmountPrayedInput = it
@@ -257,14 +257,14 @@ fun PrayerFormScreen(navController: NavController, formTitle: String = "Salut à
             PrayerTextField(R.string.maghreb_prayer_text, maghrebAmountPrayedInput) {
                 maghrebAmountPrayedInput = it
             }
-            PrayerTextField(R.string.isha_prayer_text, ishaAmountPrayedInput, imeAction = ImeAction.Done,) {
+            PrayerTextField(R.string.isha_prayer_text, ishaAmountPrayedInput, imeAction = ImeAction.Done) {
                 ishaAmountPrayedInput = it
             }
         }
         Spacer(modifier = Modifier.height(12.dp))
         ActionButton(R.string.confirm_button_text, isButtonEnabled) {
             navController.navigate(Screen.DashboardScreen.withArgs(
-                if (fajrAmountPrayed < 0) 0 else fajrAmountPrayed, fajrAmountToPray,
+                if (sobhAmountPrayed < 0) 0 else sobhAmountPrayed, sobhAmountToPray,
                 if (dohrAmountPrayed < 0) 0 else dohrAmountPrayed, dohrAmountToPray,
                 if (asrAmountPrayed < 0) 0 else asrAmountPrayed, asrAmountToPray,
                 if (maghrebAmountPrayed < 0) 0 else maghrebAmountPrayed, maghrebAmountToPray,

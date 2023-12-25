@@ -17,7 +17,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 
 @Composable
 fun DashboardScreen(
-    fajr: Prayer,
+    sobh: Prayer,
     dohr: Prayer,
     asr: Prayer,
     maghreb: Prayer,
@@ -30,7 +30,7 @@ fun DashboardScreen(
             verticalArrangement = Arrangement.Top
         ) {
             val rowSize = 85.dp
-            val prayers = arrayOf(fajr, dohr, asr, maghreb, isha)
+            val prayers = arrayOf(sobh, dohr, asr, maghreb, isha)
             CircularIndicator(
                 // Here, the * (spread) operator pulls the array values out
                 // so that the values are passed like multiple arguments.
@@ -64,7 +64,7 @@ fun DashboardScreen(
             }
             //TODO: make it displayed in a round shape
         }
-        AddPrayerField(prayer = fajr)
+        AddPrayerField(prayer = sobh)
         val button = createRef()
         Button(onClick = {},
             modifier

@@ -40,7 +40,9 @@ fun AddPrayerField(
         modifier = modifier.fillMaxWidth()
     ) {
         Text(text = stringResource(id = prayer.nameId))
-        SquaredIconButton(Icons.Filled.KeyboardArrowLeft, R.string.add_accomplished_prayers_text) {
+        SquaredIconButton(
+            Icons.Filled.KeyboardArrowLeft,
+            R.string.add_accomplished_prayers_text) {
             amountToAddInput = (amountToAdd - 1).toString()
         }
         TextField(
@@ -54,7 +56,9 @@ fun AddPrayerField(
             },
             modifier = modifier.width(80.dp)
         )
-        SquaredIconButton(Icons.Filled.KeyboardArrowRight, R.string.add_accomplished_prayers_text) {
+        SquaredIconButton(
+            Icons.Filled.KeyboardArrowRight,
+            R.string.add_accomplished_prayers_text) {
             amountToAddInput = (amountToAdd + 1).toString()
         }
     }
@@ -75,6 +79,11 @@ fun SquaredIconButton(
 @Composable
 fun AddPrayerPreview() {
     PrayerLogTheme {
-        AddPrayerField(Prayer(R.string.fajr_prayer_text, 5, 0))
+        AddPrayerField(
+            Prayer(
+                R.string.sobh_prayer_text,
+                5
+            )
+        )
     }
 }

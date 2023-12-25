@@ -1,12 +1,13 @@
 <resources>
     <string name="app_name">Prayer Log</string>
-    <string name="fajr_prayer_text">Fajr</string>
+    <string name="sobh_prayer_text">Sobh</string>
     <string name="dohr_prayer_text">Dohr</string>
     <string name="asr_prayer_text">Asr</string>
-    <string name="maghreb_prayer_text">Maghrib</string>
+    <string name="maghreb_prayer_text">Maghreb</string>
     <string name="isha_prayer_text">Icha</string>
     <string name="confirm_button_text">Confirmer</string>
     <string name="accomplished_prayers_text">Prières accomplies</string>
     <string name="add_accomplished_prayers_text">Ajouter de nouvelles prières accomplies</string>
     <string name="i_already_accomplished_some_of_them_text">J\'en ai déjà accomplies parmi celles ci-dessus</string>
+    <string name="entry_not_integer_text">La donnée entrée dans %1$s n\'est pas un nombre entier.</string>
 </resources>

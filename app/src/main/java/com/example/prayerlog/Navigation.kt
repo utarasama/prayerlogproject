@@ -17,15 +17,15 @@ fun Navigation() {
         composable(
             // Describing what are my arguments...
             route = Screen.DashboardScreen.route
-                    + "/{fajrAmountPrayed}/{fajrAmountToPray}/{dohrAmountPrayed}/{dohrAmountToPray}/{asrAmountPrayed}/" +
+                    + "/{sobhAmountPrayed}/{sobhAmountToPray}/{dohrAmountPrayed}/{dohrAmountToPray}/{asrAmountPrayed}/" +
                     "{asrAmountToPray}/{maghrebAmountPrayed}/{maghrebAmountToPray}/{ishaAmountPrayed}/{ishaAmountToPray}",
             arguments = listOf(
-                navArgument("fajrAmountPrayed") {
+                navArgument("sobhAmountPrayed") {
                     type = NavType.IntType
                     defaultValue = 0
                     nullable = false
                 },
-                navArgument("fajrAmountToPray") {
+                navArgument("sobhAmountToPray") {
                     type = NavType.IntType
                     defaultValue = 0
                     nullable = false
@@ -74,10 +74,10 @@ fun Navigation() {
         ) {entry ->
             // ... and how I get them back
             DashboardScreen(
-                fajr = Prayer(
-                    nameId = R.string.fajr_prayer_text,
-                    amountToPray = entry.arguments!!.getInt("fajrAmountToPray"),
-                    amountPrayed = entry.arguments!!.getInt("fajrAmountPrayed"),
+                sobh = Prayer(
+                    nameId = R.string.sobh_prayer_text,
+                    amountToPray = entry.arguments!!.getInt("sobhAmountToPray"),
+                    amountPrayed = entry.arguments!!.getInt("sobhAmountPrayed"),
                 ),
                 dohr = Prayer(
                     nameId = R.string.dohr_prayer_text,
