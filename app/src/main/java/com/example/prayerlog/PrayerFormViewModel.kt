@@ -1,5 +1,6 @@
 package com.example.prayerlog
 
+import androidx.compose.runtime.currentComposer
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,10 +14,21 @@ class PrayerFormViewModel : ViewModel() {
     fun updatePrayerField(prayer: Prayer) {
         _uiState.update { currentState ->
             currentState.copy(
-                //prayers =
+                prayers = currentState.prayers.updatePrayerList(prayer)
             )
         }
 
+    }
+
+    private fun List<Prayer>.updatePrayerList(prayerUpdated: Prayer): MutableList<Prayer> {
+        val prayers = this.toMutableList()
+        prayers.forEach { prayerInList ->
+            if (prayerInList.nameId == prayerUpdated.nameId) {
+                val prayerIndex = prayers.indexOf(prayerInList)
+                prayers[prayerIndex] = prayerUpdated
+            }
+        }
+        return prayers
     }
 
     /**

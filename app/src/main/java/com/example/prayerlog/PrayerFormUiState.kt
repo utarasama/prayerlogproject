@@ -1,10 +1,11 @@
 package com.example.prayerlog
 
 data class PrayerFormUiState(
-    val prayers: Unit = prayerNames.forEach {
-        Prayer(it, 0)
+    val prayers: List<Prayer> = prayerNames.map { prayerName ->
+        Prayer(prayerName, 0)
     },
-    val isPrayerFieldValid: Array<Boolean> = Array<Boolean>(10) { false }
+    val isPrayerFieldValid: Array<Boolean> = Array(10) { false },
+    val hasPrayedSomeOfThem: Boolean = false
 ) {
     // Code généré par Android Studio
     // Il a rajouté ces méthodes pour éviter un warning au niveau de isPrayerFieldValid
