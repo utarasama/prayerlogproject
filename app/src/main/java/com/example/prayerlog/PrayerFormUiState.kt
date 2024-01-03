@@ -1,11 +1,9 @@
 package com.example.prayerlog
 
 data class PrayerFormUiState(
-    val prayers: List<Prayer> = prayerNames.map { prayerName ->
-        Prayer(prayerName, 0)
-    },
-    val isPrayerFieldValid: Array<Boolean> = Array(10) { false },
-    val hasPrayedSomeOfThem: Boolean = false
+    val arePrayerFieldsValid: Array<Boolean> = Array(10) { false },
+    val hasPrayedSomeOfThem: Boolean = false,
+    val isConfirmButtonEnabled: Boolean = false
 ) {
     // Code généré par Android Studio
     // Il a rajouté ces méthodes pour éviter un warning au niveau de isPrayerFieldValid
@@ -15,10 +13,10 @@ data class PrayerFormUiState(
 
         other as PrayerFormUiState
 
-        return isPrayerFieldValid.contentEquals(other.isPrayerFieldValid)
+        return arePrayerFieldsValid.contentEquals(other.arePrayerFieldsValid)
     }
 
     override fun hashCode(): Int {
-        return isPrayerFieldValid.contentHashCode()
+        return arePrayerFieldsValid.contentHashCode()
     }
 }

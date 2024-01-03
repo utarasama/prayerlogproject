@@ -26,6 +26,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.prayerlog.ui.theme.PrayerLogTheme
 
@@ -71,25 +72,25 @@ private fun isFormValid(vararg values: Int): Boolean {
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun PrayerTextField(
-    @StringRes label: Int,
-    value: String,
+    prayer: Prayer,
     modifier: Modifier = Modifier,
     imeAction: ImeAction = ImeAction.Next,
     onValueChange: (String) -> Unit,
+    isError: Boolean = false
 ) {
     var lostAtLeastOnceFocus by rememberSaveable { mutableStateOf(false) }
     var hadAtLeastOnceFocus by rememberSaveable { mutableStateOf(false) }
 
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
-    val labelTextFieldName: String= stringResource(label)
-
+    val labelTextFieldName: String= stringResource(prayer.nameId)
+/*
     fun hasTextFieldError(): Boolean {
         return lostAtLeastOnceFocus && !isInt(value) || (hadAtLeastOnceFocus && !isInt(value) && value != "")
     }
-
+*/
     OutlinedTextField(
-        value = value,
+        value = prayer.amountPrayed.toString(),
         singleLine = true,
         onValueChange = onValueChange,
         label = { Text(labelTextFieldName) },
@@ -115,9 +116,9 @@ fun PrayerTextField(
                 focusManager.clearFocus()
             }
         ),
-        isError = hasTextFieldError(),
+        isError = isError,
         trailingIcon = { // Affichage d'une icône en cas d'erreur
-            if (hasTextFieldError())
+            if (isError)
                 Icon(
                     Icons.Filled.Warning,
                     stringResource(R.string.entry_not_integer_text, labelTextFieldName),
@@ -136,7 +137,9 @@ fun ActionButton(
 ) {
     Button(
         onClick = customAction,
-        modifier = modifier.padding(12.dp).fillMaxWidth(),
+        modifier = modifier
+            .padding(12.dp)
+            .fillMaxWidth(),
         enabled = enabled
     ) {
         Text(text = stringResource(label), Modifier.padding(12.dp))
@@ -149,7 +152,8 @@ fun CheckboxWithText(
     @StringRes text: Int,
     clickableText: () -> Unit,
     modifier: Modifier = Modifier,
-    onCheckedChange: (Boolean) -> Unit) {
+    onCheckedChange: (Boolean) -> Unit
+) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start,
@@ -171,7 +175,13 @@ fun CheckboxWithText(
 }
 
 @Composable
-fun PrayerFormScreen(navController: NavController, formTitle: String = "Salut à toi, jeune entrepreneur") {
+fun PrayerFormScreen(
+    navController: NavController,
+    formTitle: String = "Salut à toi, jeune entrepreneur",
+    prayerFormViewModel: PrayerFormViewModel = viewModel()
+) {
+    val prayerFormUiState by prayerFormViewModel.uiState.collectAsState()
+
     var sobhAmountToPrayInput by rememberSaveable { mutableStateOf( "") }
     var dohrAmountToPrayInput by rememberSaveable { mutableStateOf( "") }
     var asrAmountToPrayInput by rememberSaveable { mutableStateOf( "") }
@@ -220,6 +230,7 @@ fun PrayerFormScreen(navController: NavController, formTitle: String = "Salut à
             modifier = Modifier.padding(12.dp)
         )
         Spacer(Modifier.padding(12.dp))
+        /*
         PrayerTextField(R.string.sobh_prayer_text, sobhAmountToPrayInput) {
             sobhAmountToPrayInput = it
         }
@@ -235,34 +246,34 @@ fun PrayerFormScreen(navController: NavController, formTitle: String = "Salut à
         PrayerTextField(R.string.isha_prayer_text, ishaAmountToPrayInput, imeAction = ImeAction.Done) {
             ishaAmountToPrayInput = it
         }
+        */
+        for (prayer in prayerFormViewModel.prayers) {
+            PrayerTextField(prayer = prayer, onValueChange = {
+                prayerFormViewModel.updatePrayerField(it, prayer.nameId)
+            })
+        }
         Spacer(modifier = Modifier.height(8.dp))
         CheckboxWithText(
-            hasMadeUpSomePrayers,
+            prayerFormUiState.hasPrayedSomeOfThem,
             R.string.i_already_accomplished_some_of_them_text,
-            { hasMadeUpSomePrayers = !hasMadeUpSomePrayers }
+            { prayerFormViewModel.toggleHasPrayedSomeOfThem() }
         ) {
-            hasMadeUpSomePrayers = it
+            prayerFormViewModel.setHasPrayedSomeOfThem(it)
         }
-        if (hasMadeUpSomePrayers) {
+        if (prayerFormUiState.hasPrayedSomeOfThem) {
             Spacer(modifier = Modifier.height(8.dp))
-            PrayerTextField(R.string.sobh_prayer_text, sobhAmountPrayedInput) {
-                sobhAmountPrayedInput = it
-            }
-            PrayerTextField(R.string.dohr_prayer_text, dohrAmountPrayedInput) {
-                dohrAmountPrayedInput = it
-            }
-            PrayerTextField(R.string.asr_prayer_text, asrAmountPrayedInput) {
-                asrAmountPrayedInput = it
-            }
-            PrayerTextField(R.string.maghreb_prayer_text, maghrebAmountPrayedInput) {
-                maghrebAmountPrayedInput = it
-            }
-            PrayerTextField(R.string.isha_prayer_text, ishaAmountPrayedInput, imeAction = ImeAction.Done) {
-                ishaAmountPrayedInput = it
+            for (prayer in prayerFormViewModel.prayers) {
+                PrayerTextField(prayer = prayer, onValueChange = {
+                    prayerFormViewModel.updatePrayerField(
+                        it,
+                        prayer.nameId,
+                        prayerFormUiState.hasPrayedSomeOfThem
+                    )
+                })
             }
         }
         Spacer(modifier = Modifier.height(12.dp))
-        ActionButton(R.string.confirm_button_text, isButtonEnabled) {
+        ActionButton(R.string.confirm_button_text, prayerFormUiState.isConfirmButtonEnabled) {
             navController.navigate(Screen.DashboardScreen.withArgs(
                 if (sobhAmountPrayed < 0) 0 else sobhAmountPrayed, sobhAmountToPray,
                 if (dohrAmountPrayed < 0) 0 else dohrAmountPrayed, dohrAmountToPray,

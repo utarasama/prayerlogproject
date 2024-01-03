@@ -13,8 +13,8 @@ import androidx.annotation.StringRes
  */
 data class Prayer(
     @StringRes val nameId: Int,
-    val amountToPray: Int,
-    val amountPrayed: Int = 0
+    var amountToPray: Int,
+    var amountPrayed: Int = 0
 ) {
     /**
      * Tells if the prayer needs to be made up or not.
