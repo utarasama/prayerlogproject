@@ -75,27 +75,27 @@ fun Navigation() {
             // ... and how I get them back
             DashboardScreen(
                 sobh = Prayer(
-                    nameId = R.string.sobh_prayer_text,
+                    nameId = R.string.sobh,
                     amountToPray = entry.arguments!!.getInt("sobhAmountToPray"),
                     amountPrayed = entry.arguments!!.getInt("sobhAmountPrayed"),
                 ),
                 dohr = Prayer(
-                    nameId = R.string.dohr_prayer_text,
+                    nameId = R.string.dohr,
                     amountToPray = entry.arguments!!.getInt("dohrAmountToPray"),
                     amountPrayed = entry.arguments!!.getInt("dohrAmountPrayed"),
                 ),
                 asr = Prayer(
-                    nameId = R.string.asr_prayer_text,
+                    nameId = R.string.asr,
                     amountToPray = entry.arguments!!.getInt("asrAmountToPray"),
                     amountPrayed = entry.arguments!!.getInt("asrAmountPrayed"),
                 ),
                 maghreb = Prayer(
-                    nameId = R.string.maghreb_prayer_text,
+                    nameId = R.string.maghreb,
                     amountToPray = entry.arguments!!.getInt("maghrebAmountToPray"),
                     amountPrayed = entry.arguments!!.getInt("maghrebAmountPrayed"),
                 ),
                 isha = Prayer(
-                    nameId = R.string.isha_prayer_text,
+                    nameId = R.string.icha,
                     amountToPray = entry.arguments!!.getInt("ishaAmountToPray"),
                     amountPrayed = entry.arguments!!.getInt("ishaAmountPrayed"),
                 ),

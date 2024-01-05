@@ -48,18 +48,6 @@ class MainActivity : ComponentActivity() {
 }
 
 /**
- * Tells if the TextField value is Int or not.
- * @param value The TextField value.
- * @return `true` if it's a positive Int, `false` otherwise
- */
-private fun isInt(value: String): Boolean {
-    val intValue = value.toIntOrNull()
-    if (intValue != null)
-        return isFormValid(intValue)
-    return false
-}
-
-/**
  * @return `true` is all numbers are at least equal to 0, `false` otherwise.
  */
 private fun isFormValid(vararg values: Int): Boolean {
@@ -75,8 +63,9 @@ fun PrayerTextField(
     prayer: Prayer,
     modifier: Modifier = Modifier,
     imeAction: ImeAction = ImeAction.Next,
-    onValueChange: (String) -> Unit,
-    isError: Boolean = false
+    isError: Boolean = false,
+    isAmountPrayed: Boolean = false,
+    onValueChange: (String) -> Unit
 ) {
     var lostAtLeastOnceFocus by rememberSaveable { mutableStateOf(false) }
     var hadAtLeastOnceFocus by rememberSaveable { mutableStateOf(false) }
@@ -89,8 +78,15 @@ fun PrayerTextField(
         return lostAtLeastOnceFocus && !isInt(value) || (hadAtLeastOnceFocus && !isInt(value) && value != "")
     }
 */
+    var textFieldValue: String = ""
+    if (isAmountPrayed) {
+        if (prayer.amountPrayed != null)
+            textFieldValue = prayer.amountPrayed.toString()
+    } else if (prayer.amountToPray != null)
+        textFieldValue = prayer.amountToPray.toString()
+
     OutlinedTextField(
-        value = prayer.amountPrayed.toString(),
+        value = textFieldValue,
         singleLine = true,
         onValueChange = onValueChange,
         label = { Text(labelTextFieldName) },
@@ -248,9 +244,13 @@ fun PrayerFormScreen(
         }
         */
         for (prayer in prayerFormViewModel.prayers) {
-            PrayerTextField(prayer = prayer, onValueChange = {
-                prayerFormViewModel.updatePrayerField(it, prayer.nameId)
-            })
+            PrayerTextField(
+                prayer = prayer,
+                onValueChange = {
+                    prayerFormViewModel.updatePrayerField(it, prayer.nameId)
+                },
+                isError = prayerFormViewModel.hasFieldError(prayer)
+            )
         }
         Spacer(modifier = Modifier.height(8.dp))
         CheckboxWithText(
@@ -263,13 +263,17 @@ fun PrayerFormScreen(
         if (prayerFormUiState.hasPrayedSomeOfThem) {
             Spacer(modifier = Modifier.height(8.dp))
             for (prayer in prayerFormViewModel.prayers) {
-                PrayerTextField(prayer = prayer, onValueChange = {
-                    prayerFormViewModel.updatePrayerField(
-                        it,
-                        prayer.nameId,
-                        prayerFormUiState.hasPrayedSomeOfThem
-                    )
-                })
+                PrayerTextField(
+                    prayer = prayer,
+                    onValueChange = {
+                        prayerFormViewModel.updatePrayerField(
+                            it,
+                            prayer.nameId,
+                            prayerFormUiState.hasPrayedSomeOfThem
+                        )
+                    },
+                    isAmountPrayed = true
+                )
             }
         }
         Spacer(modifier = Modifier.height(12.dp))

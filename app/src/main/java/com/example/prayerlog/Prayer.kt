@@ -2,6 +2,8 @@ package com.example.prayerlog
 
 import androidx.annotation.StringRes
 
+const val DEFAULT_PRAYER_FIELD_VALUE = -1
+
 /**
  * Represents a prayer.
  * @property nameId The prayer's name ID stored in `strings.xml`.
@@ -13,15 +15,15 @@ import androidx.annotation.StringRes
  */
 data class Prayer(
     @StringRes val nameId: Int,
-    var amountToPray: Int,
-    var amountPrayed: Int = 0
+    var amountToPray: Int?,
+    var amountPrayed: Int? = 0
 ) {
     /**
      * Tells if the prayer needs to be made up or not.
      * @return `true` if this prayer still needs to be made up, `false` otherwise.
      */
     fun stillNeedsToBeMadeUp(): Boolean {
-        return this.amountToPray > this.amountPrayed
+        return this.amountToPray!! > this.amountPrayed!!
     }
 
     // All methods in this companion object are equivalent to static methods.
@@ -32,7 +34,7 @@ data class Prayer(
          * @return The sum described above.
          */
         fun sumAmountToPray(vararg prayers: Prayer): Int {
-            return prayers.sumOf { it.amountToPray }
+            return prayers.sumOf { it.amountToPray!! }
         }
 
         /**
@@ -41,7 +43,7 @@ data class Prayer(
          * @return The sum described above.
          */
         fun sumAmountPrayed(vararg prayers: Prayer): Int {
-            return prayers.sumOf { it.amountPrayed }
+            return prayers.sumOf { it.amountPrayed!! }
         }
     }
 }

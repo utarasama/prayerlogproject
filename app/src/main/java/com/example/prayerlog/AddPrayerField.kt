@@ -81,7 +81,7 @@ fun AddPrayerPreview() {
     PrayerLogTheme {
         AddPrayerField(
             Prayer(
-                R.string.sobh_prayer_text,
+                R.string.sobh,
                 5
             )
         )

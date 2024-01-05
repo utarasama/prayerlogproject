@@ -1,17 +1,17 @@
 <resources>
     <string-array name="prayers">
-        <item>@string/sobh_prayer_text</item>
-        <item>@string/dohr_prayer_text</item>
-        <item>@string/asr_prayer_text</item>
-        <item>@string/maghreb_prayer_text</item>
-        <item>@string/isha_prayer_text</item>
+        <item>@string/sobh</item>
+        <item>@string/dohr</item>
+        <item>@string/asr</item>
+        <item>@string/maghreb</item>
+        <item>@string/icha</item>
     </string-array>
     <string name="app_name">Prayer Log</string>
-    <string name="sobh_prayer_text">Sobh</string>
-    <string name="dohr_prayer_text">Dohr</string>
-    <string name="asr_prayer_text">Asr</string>
-    <string name="maghreb_prayer_text">Maghreb</string>
-    <string name="isha_prayer_text">Icha</string>
+    <string name="sobh">Sobh</string>
+    <string name="dohr">Dohr</string>
+    <string name="asr">Asr</string>
+    <string name="maghreb">Maghreb</string>
+    <string name="icha">Icha</string>
 
     <string name="confirm_button_text">Confirmer</string>
     <string name="accomplished_prayers_text">Prières accomplies</string>

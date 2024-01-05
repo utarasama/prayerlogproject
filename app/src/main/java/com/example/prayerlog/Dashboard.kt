@@ -52,8 +52,8 @@ fun DashboardScreen(
                 for (prayer in prayers)
                     if (prayer.stillNeedsToBeMadeUp())
                         CircularIndicator(
-                            indicatorValue = prayer.amountPrayed,
-                            maxIndicatorValue = prayer.amountToPray,
+                            indicatorValue = prayer.amountPrayed!!,
+                            maxIndicatorValue = prayer.amountToPray!!,
                             smallText = prayer.nameId,
                             canvasSize = rowSize,
                             foregroundIndicatorStrokeWidth = 10f,

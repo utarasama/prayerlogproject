@@ -5,13 +5,22 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import androidx.compose.runtime.*
+import androidx.compose.runtime.snapshots.SnapshotStateList
+import kotlin.reflect.KProperty
 
 class PrayerFormViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(PrayerFormUiState())
     val uiState: StateFlow<PrayerFormUiState> = _uiState.asStateFlow()
 
 
-    //var prayers = stringArrayResource(R.array.prayers)
+    var prayers = mutableListOf(
+        Prayer(R.string.sobh, 0),
+        Prayer(R.string.dohr, 0),
+        Prayer(R.string.asr, 0),
+        Prayer(R.string.maghreb, 0),
+        Prayer(R.string.icha, 0),
+    )
 
 /*
     fun updatePrayerField(prayer: Prayer) {
@@ -23,22 +32,23 @@ class PrayerFormViewModel : ViewModel() {
         validateForm()
     }
 */
-    private fun List<Prayer>.updatePrayerList(prayerUpdated: Prayer): MutableList<Prayer> {
-        val prayers = this.toMutableList()
-        prayers.forEach { prayerInList ->
+    private fun MutableList<Prayer>.updatePrayerList(prayerUpdated: Prayer) {
+        this.forEach { prayerInList ->
             if (prayerInList.nameId == prayerUpdated.nameId) {
-                val prayerIndex = prayers.indexOf(prayerInList)
-                prayers[prayerIndex] = prayerUpdated
+                val prayerIndex = this.indexOf(prayerInList)
+                this[prayerIndex] = prayerUpdated
             }
         }
-        return prayers
     }
 
     fun updatePrayerField(value: String, prayerNameId: Int, extraMade: Boolean = false) {
         val prayerModified = prayers.find { prayer -> prayer.nameId == prayerNameId }
-        _uiState.update { currentState ->
-
+        if (extraMade) {
+            prayerModified?.amountPrayed = value.toIntOrNull() ?: DEFAULT_PRAYER_FIELD_VALUE
+        } else {
+            prayerModified?.amountToPray = value.toIntOrNull() ?: DEFAULT_PRAYER_FIELD_VALUE
         }
+        prayers.updatePrayerList(prayerModified!!)
         validateForm()
     }
 
@@ -46,16 +56,22 @@ class PrayerFormViewModel : ViewModel() {
      * Sert à valider un champ du formulaire.
      * @return `true` s'il y a une erreur, `false` sinon.
      */
-    fun validatePrayerField(fieldValue: String): Boolean {
-        val fieldValueConverted = fieldValue.toIntOrNull()
-        return fieldValueConverted == null || fieldValueConverted < 0
+    fun hasFieldError(prayer: Prayer): Boolean {
+        if (_uiState.value.hasPrayedSomeOfThem) {
+            if (prayer.amountPrayed!! > prayer.amountToPray!!)
+                return true
+        } else if (prayer.amountPrayed != 0 ||
+            prayer.amountToPray == null || prayer.amountToPray!! < 0) {
+            return true
+        }
+        return false
     }
 
     private fun validateForm() {
-        val x = true
+        val isFormValid: Boolean = prayers.all { prayer -> !hasFieldError(prayer)}
         _uiState.update { currentState ->
             currentState.copy(
-                isConfirmButtonEnabled = _uiState.value.isConfirmButtonEnabled.not()
+                isConfirmButtonEnabled = isFormValid
             )
         }
     }
